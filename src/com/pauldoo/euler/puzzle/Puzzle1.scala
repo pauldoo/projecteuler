@@ -2,11 +2,13 @@ package com.pauldoo.euler.puzzle
 import java.math.BigInteger
 
 object Puzzle1 extends Puzzle {
-
-  def answer(): BigInt = {
-    val values = for (i <- 1 until 1000 if (i % 3) == 0 || (i % 5) == 0) yield intToBigInt(i);
-    values.reduce(_ + _);
+  def sum(range: Range): BigInt = {
+    val actualLast = range.first + range.step * (range.length - 1);
+    ((range.first + actualLast) * (range.length)) / 2;
   }
 
-  def intToBigInt(v: Long): BigInt = new BigInt(BigInteger.valueOf(v));
+  def answer(): BigInt = {
+    val range = 0 until 1000;
+    sum(range by 3) + sum(range by 5) - sum(range by 15);
+  }
 }
