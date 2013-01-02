@@ -4,7 +4,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class Puzzle1Test extends PuzzleTest {
-  def puzzle = Puzzle1;
-  def expectedAnswer = 233168;
+class Puzzle2Test extends PuzzleTest {
+  def puzzle = Puzzle2;
+  def expectedAnswer = 4613732;
 }
