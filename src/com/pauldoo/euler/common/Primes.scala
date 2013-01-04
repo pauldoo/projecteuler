@@ -4,21 +4,49 @@ import com.pauldoo.euler.common.Naturals.positiveNaturals;
 object Primes {
   val primes: Stream[BigInt] = seive(positiveNaturals.drop(1));
 
-  def primeFactors(n: BigInt): Stream[BigInt] = primeFactorsImp(n, primes);
+  // Returns a list of the prime factors of 'n'.  Ie, 20 => [2, 5]
+  def primeFactors(n: BigInt): List[BigInt] = {
+    primeFactorPowers(n).zip(primes).filter(_._1 > 0).map(_._2);
+  }
+
+  // Returns a list of the powers of the prime factors of 'n',  Ie, 20 => [2, 0, 1] (2^2 * 3^0 * 5^1)
+  def primeFactorPowers(n: BigInt): List[Int] = primeFactorPowersImp(n, primes);
+
+  // Inverse of primeFactorPowers
+  def primeFactorPowersToNumber(powers: List[Int]): BigInt = {
+    primes.zip(powers).map(e => e._1.pow(e._2)).reduce(_ * _);
+  }
 
   private def seive(list: Stream[BigInt]): Stream[BigInt] = {
     val head = list.head;
     head #:: seive(list.tail.filter(_ % head != 0));
   }
 
-  private def primeFactorsImp(n: BigInt, primes: Stream[BigInt]): Stream[BigInt] = {
+  private def primeFactorPowersImp(n: BigInt, primes: Stream[BigInt]): List[Int] = {
     assert(n >= 1);
     if (n == 1) {
-      Stream.Empty
+      List.empty;
     } else {
-      val remainingPrimes = primes.dropWhile(n % _ != 0);
-      val factor = remainingPrimes.head;
-      factor #:: primeFactorsImp(n / factor, remainingPrimes);
+      val factor = primes.head;
+      val divAndRem = n /% factor;
+      if (divAndRem._2 == 0) {
+        addOneToHead(primeFactorPowersImp(divAndRem._1, primes));
+      } else {
+        0 :: primeFactorPowersImp(n, primes.tail);
+      }
+    }
+  }
+
+  def addOneToHead(stream: List[Int]): List[Int] = {
+    stream.headOption match {
+      case Some(n) => {
+        (n + 1) :: stream.tail;
+      }
+      case None => {
+        // No head, guaranteed no tail either
+        1 :: List.empty;
+      }
     }
   }
 }
+

@@ -5,5 +5,4 @@ object Summations {
     val actualLast = range.first + range.step * (range.length - 1);
     ((range.first + actualLast) * (range.length)) / 2;
   }
-
 }
