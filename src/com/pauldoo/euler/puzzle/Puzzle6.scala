@@ -1,5 +1,4 @@
 package com.pauldoo.euler.puzzle
-import com.pauldoo.euler.common.Naturals.positiveNaturals
 import com.pauldoo.euler.common.Summations.sumOfSquares
 import com.pauldoo.euler.common.Summations.sum
 
