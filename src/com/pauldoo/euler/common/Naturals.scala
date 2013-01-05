@@ -1,5 +1,7 @@
 package com.pauldoo.euler.common
 
 object Naturals {
-  val positiveNaturals: Stream[BigInt] = Stream.cons(1, positiveNaturals.map(_ + 1));
+  def integersFrom(n: BigInt): Stream[BigInt] = n #:: integersFrom(n + 1);
+
+  val positiveNaturals: Stream[BigInt] = integersFrom(1);
 }
