@@ -1,8 +1,18 @@
 package com.pauldoo.euler.common
-import com.pauldoo.euler.common.Naturals.positiveNaturals;
+import com.pauldoo.euler.common.Naturals.integersFrom;
 
 object Primes {
-  val primes: Stream[BigInt] = seive(positiveNaturals.drop(1));
+  val primes: Seq[BigInt] = primeStream(integersFrom(2), Stream.Empty);
+
+  private def primeStream(naturals: Stream[BigInt], knownPrimes: Stream[BigInt]): Stream[BigInt] = {
+    val n = naturals.head;
+    val nIsPrime = knownPrimes.takeWhile { p => (p * p <= n) }.filter { n % _ == 0 }.isEmpty;
+    if (nIsPrime) {
+      n #:: primeStream(naturals.tail, knownPrimes :+ n);
+    } else {
+      primeStream(naturals.tail, knownPrimes);
+    }
+  }
 
   // Returns a list of the prime factors of 'n'.  Ie, 20 => [2, 5]
   def primeFactors(n: BigInt): List[BigInt] = {
@@ -17,12 +27,7 @@ object Primes {
     primes.zip(powers).map(e => e._1.pow(e._2)).reduce(_ * _);
   }
 
-  private def seive(list: Stream[BigInt]): Stream[BigInt] = {
-    val head = list.head;
-    head #:: seive(list.tail.filter(_ % head != 0));
-  }
-
-  private def primeFactorPowersImp(n: BigInt, primes: Stream[BigInt]): List[Int] = {
+  private def primeFactorPowersImp(n: BigInt, primes: Seq[BigInt]): List[Int] = {
     assert(n >= 1);
     if (n == 1) {
       List.empty;
