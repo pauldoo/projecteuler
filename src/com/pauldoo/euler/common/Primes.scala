@@ -1,10 +1,11 @@
 package com.pauldoo.euler.common
 import com.pauldoo.euler.common.Naturals.integersFrom;
+import scala.collection.immutable.Queue
 
 object Primes {
-  val primes: Seq[BigInt] = primeStream(integersFrom(2), Stream.Empty);
+  val primes: Seq[BigInt] = primeStream(integersFrom(2), Vector.empty);
 
-  private def primeStream(naturals: Stream[BigInt], knownPrimes: Stream[BigInt]): Stream[BigInt] = {
+  private def primeStream(naturals: Stream[BigInt], knownPrimes: Vector[BigInt]): Stream[BigInt] = {
     val n = naturals.head;
     val nIsPrime = knownPrimes.takeWhile { p => (p * p <= n) }.filter { n % _ == 0 }.isEmpty;
     if (nIsPrime) {
