@@ -1,10 +1,11 @@
 package com.pauldoo.euler.puzzle
 import com.pauldoo.euler.common.Naturals.positiveNaturals
+import com.pauldoo.euler.common.Summations.sumOfSquares
+import com.pauldoo.euler.common.Summations.sum
 
 object Puzzle6 extends Puzzle {
   def answer() = {
-    val numbers: Seq[BigInt] = positiveNaturals.take(100);
-    val square = (n: BigInt) => n * n;
-    square(numbers.reduce(_ + _)) - numbers.map(square).reduce(_ + _);
+    def square(n: BigInt) = n * n;
+    square(sum(1 to 100)) - sumOfSquares(100);
   }
 }
