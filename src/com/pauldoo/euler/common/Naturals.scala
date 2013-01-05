@@ -1,5 +1,6 @@
 package com.pauldoo.euler.common
 
 object Naturals {
-  def integersFrom(n: BigInt): Stream[BigInt] = n #:: integersFrom(n + 1);
+  def integersFrom[A](n: A)(implicit numeric: Integral[A]): Stream[A] =
+    n #:: integersFrom(numeric.plus(n, numeric.one));
 }
